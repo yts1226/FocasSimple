@@ -5,8 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FocasSimple2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="FOCAS Simple Demo" Height="400" Width="600" FontFamily="Microsoft YaHei">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="FOCAS API DEMO" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Margin="0,0,0,0"/>
+        -->
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="IP地址" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="TCP端口号" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="绝对位置，X轴" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="机械位置，X轴" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+        <TextBlock Grid.Row="1" Grid.Column="2" Text="变量，#500" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="PMC 1 Byte，D0000" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="16" Margin="20,0,0,0"/>
+
+        <TextBox Grid.Row="2" Grid.Column="0" Text="255.255.255.255" Width="150" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
+        <TextBox Grid.Row="4" Grid.Column="0" Text="8193" Width="50" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
+        <!--<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding E1000}" Width="150" Height="40" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0" TextAlignment="Right"/>-->
+        <TextBox Grid.Row="2" Grid.Column="1" Text="" Width="120" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF" IsEnabled="False" AllowDrop="False" IsTabStop="False"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="" Width="120" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF" IsEnabled="False" AllowDrop="False" IsTabStop="False"/>
+        <TextBox Grid.Row="2" Grid.Column="2" Text="" Width="130" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
+        <TextBox Grid.Row="4" Grid.Column="2" Text="" Width="50" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
+
+        <Button Grid.Row="6" Grid.Column="0" Margin="30,10,30,10" IsDefault="True" Click="CmdConnect">连接</Button>
+        <Button Grid.Row="6" Grid.Column="1" Margin="30,10,30,10">写入</Button>
+        <Button Grid.Row="6" Grid.Column="2" Margin="30,10,30,10" IsCancel="True" Click="CmdExit">退出</Button>
+
     </Grid>
 </Window>
