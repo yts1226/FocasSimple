@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -29,22 +31,47 @@ namespace FocasSimple2
         {
             ushort h;
             short ret;
+            string strVal;
 
-            Focas1.ODBST buf = new Focas1.ODBST();
-            //Focas1.ODBAXIS buf2 = new Focas1.ODBAXIS();
+            Focas1.ODBAXIS CncAxis = new Focas1.ODBAXIS();
+            Focas1.ODBM MarcoVal = new Focas1.ODBM();
+            Focas1.IODBPMC0 bytPMC = new Focas1.IODBPMC0();
 
-            ret = Focas1.cnc_allclibhndl3("192.168.12.149", 8193, 3, out h);
+            //tbIpAddress.Text="192.168.12.149";
 
+            // 建立连接
+            ret = Focas1.cnc_allclibhndl3(tbIpAddress.Text, ushort.Parse(tbPort.Text), 3, out h);
+            
             if (ret == Focas1.EW_OK)
             {
-                Focas1.cnc_statinfo(h, buf);
-                //Focas1.cnc_absolute(h, -1, 4 + 4 * Focas1.MAX_AXIS, buf2);
-                //Console.WriteLine("1:{0,8}\n2:{1,8}\n3:{2,8}", buf2.data[0], buf2.data[1], buf2.data[2]);
+                // 读取绝对位置坐标
+                Focas1.cnc_absolute2(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
+                strVal = string.Format("{0:#########}", Math.Abs(CncAxis.data[0]));
+                strVal = strVal.Insert(strVal.Length-3, ".");
+                tbAbsolutX.Text = strVal;
+                
+                // 读取机械位置坐标
+                Focas1.cnc_machine(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
+                strVal = string.Format("{0:#########}", Math.Abs(CncAxis.data[0]));
+                tbMachineX.Text = strVal.Insert(strVal.Length - 3, ".");
+
+                // 读取用户宏变量 #500 数值
+                Focas1.cnc_rdmacro(h, 500, 10, MarcoVal);
+                strVal = string.Format("{0:d9}", Math.Abs(MarcoVal.mcr_val));
+                if (0 < MarcoVal.dec_val) strVal = strVal.Insert(9 - MarcoVal.dec_val, ".");
+                if (MarcoVal.mcr_val < 0) strVal = "-" + strVal;
+                tbVariable500.Text = strVal;
+
+                // 读取PMC D200 数值
+                Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
+                tbPmcD0200.Text = bytPMC.cdata[0].ToString();
+
+                // 释放 library handle
                 Focas1.cnc_freelibhndl(h);
             }
             else
             {
-                Console.WriteLine("ERROR!({0})", ret);
+                MessageBox.Show("ret = "+ret.ToString());
             }
         }
 
