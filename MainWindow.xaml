@@ -41,8 +41,8 @@
         <TextBox x:Name="tbVariable500" Grid.Row="2" Grid.Column="2" Text="" Width="130" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
         <TextBox x:Name="tbPmcD0200" Grid.Row="4" Grid.Column="2" Text="" Width="50" Height="30" HorizontalAlignment="left" VerticalAlignment="Top" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom" FontSize="16" Margin="20,5,0,0" Foreground="#FF0080FF"/>
 
-        <Button Grid.Row="6" Grid.Column="0" Margin="30,10,30,10" IsDefault="True" Click="CmdConnect">连接</Button>
-        <Button Grid.Row="6" Grid.Column="1" Margin="30,10,30,10">写入</Button>
+        <Button Grid.Row="6" Grid.Column="0" Margin="30,10,30,10" IsDefault="True" Click="CmdRead">读取</Button>
+        <Button Grid.Row="6" Grid.Column="1" Margin="30,10,30,10" Click="CmdWrite">写入</Button>
         <Button Grid.Row="6" Grid.Column="2" Margin="30,10,30,10" IsCancel="True" Click="CmdExit">退出</Button>
 
     </Grid>

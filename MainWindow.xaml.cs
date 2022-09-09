@@ -22,23 +22,25 @@ namespace FocasSimple2
     /// </summary>
     public partial class MainWindow : Window
     {
+        ushort h;
+        short ret;
+        //string strVal;
+        int MacroVal;
+        short MacroDec;
+        //double temp;
+
+        Focas1.ODBAXIS CncAxis = new Focas1.ODBAXIS();
+        Focas1.ODBM CncMacro = new Focas1.ODBM();
+        Focas1.IODBPMC0 bytPMC = new Focas1.IODBPMC0();
+
         public MainWindow()
         {
             InitializeComponent();
+            tbIpAddress.Text = "192.168.12.149";
         }
 
-        private void CmdConnect(object sender, RoutedEventArgs e)
+        private void CmdRead(object sender, RoutedEventArgs e)
         {
-            ushort h;
-            short ret;
-            string strVal;
-
-            Focas1.ODBAXIS CncAxis = new Focas1.ODBAXIS();
-            Focas1.ODBM MarcoVal = new Focas1.ODBM();
-            Focas1.IODBPMC0 bytPMC = new Focas1.IODBPMC0();
-
-            //tbIpAddress.Text="192.168.12.149";
-
             // 建立连接
             ret = Focas1.cnc_allclibhndl3(tbIpAddress.Text, ushort.Parse(tbPort.Text), 3, out h);
             
@@ -46,24 +48,20 @@ namespace FocasSimple2
             {
                 // 读取绝对位置坐标
                 Focas1.cnc_absolute2(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
-                strVal = string.Format("{0:#########}", Math.Abs(CncAxis.data[0]));
-                strVal = strVal.Insert(strVal.Length-3, ".");
-                tbAbsolutX.Text = strVal;
-                
+                // 显示，暂时默认三位小数
+                tbAbsolutX.Text = String.Format("{0:######.000}", (double)CncAxis.data[0] / 1000);
+
                 // 读取机械位置坐标
                 Focas1.cnc_machine(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
-                strVal = string.Format("{0:#########}", Math.Abs(CncAxis.data[0]));
-                tbMachineX.Text = strVal.Insert(strVal.Length - 3, ".");
+                // 显示，暂时默认三位小数
+                tbMachineX.Text = String.Format("{0:######.000}", (double)CncAxis.data[0] / 1000);
 
                 // 读取用户宏变量 #500 数值
-                Focas1.cnc_rdmacro(h, 500, 10, MarcoVal);
-                strVal = string.Format("{0:d9}", Math.Abs(MarcoVal.mcr_val));
-                if (0 < MarcoVal.dec_val) strVal = strVal.Insert(9 - MarcoVal.dec_val, ".");
-                if (MarcoVal.mcr_val < 0) strVal = "-" + strVal;
-                tbVariable500.Text = strVal;
+                Focas1.cnc_rdmacro(h, 500, 10, CncMacro);
+                tbVariable500.Text = String.Format("{0:#########.####}", CncMacro.mcr_val * Math.Pow(0.1, CncMacro.dec_val));
 
                 // 读取PMC D200 数值
-                Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
+                ret = Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
                 tbPmcD0200.Text = bytPMC.cdata[0].ToString();
 
                 // 释放 library handle
@@ -75,9 +73,43 @@ namespace FocasSimple2
             }
         }
 
+        private void CmdWrite(object sender, RoutedEventArgs e)
+        {
+            // 建立连接
+            ret = Focas1.cnc_allclibhndl3(tbIpAddress.Text, ushort.Parse(tbPort.Text), 3, out h);
+
+            if (ret == Focas1.EW_OK)
+            {
+                // 写入用户宏变量 #500 数值
+                // 此处限定4位小数，四舍五入
+                MacroVal = (int)Math.Round(double.Parse(tbVariable500.Text) * 10000);
+                MacroDec = 4;
+                Focas1.cnc_wrmacro(h, 500, 10, MacroVal, MacroDec);
+
+                //MessageBox.Show("ret = " + ret.ToString());
+
+                // 写入PMC D200 数值
+                bytPMC.cdata[0] = Convert.ToByte(tbPmcD0200.Text);
+                bytPMC.type_a = 9;
+                bytPMC.type_d = 0;
+                bytPMC.datano_s = 200;
+                bytPMC.datano_e = 200;
+                ret = Focas1.pmc_wrpmcrng(h, 9, bytPMC);
+
+                // 释放 library handle
+                Focas1.cnc_freelibhndl(h);
+            }
+            else
+            {
+                MessageBox.Show("ret = " + ret.ToString());
+            }
+
+        }
+
         private void CmdExit(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
     }
 }
