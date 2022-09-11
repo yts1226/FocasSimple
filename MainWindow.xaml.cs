@@ -56,7 +56,7 @@ namespace FocasSimple2
                 // 显示，暂时默认三位小数
                 tbMachineX.Text = String.Format("{0:######.000}", (double)CncAxis.data[0] / 1000);
 
-                // 读取用户宏变量 #500 数值
+                // 读取用户宏变量 #500 数值，保留4位小数
                 Focas1.cnc_rdmacro(h, 500, 10, CncMacro);
                 tbVariable500.Text = String.Format("{0:#########.####}", CncMacro.mcr_val * Math.Pow(0.1, CncMacro.dec_val));
 
