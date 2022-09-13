@@ -2,8 +2,12 @@
 简易 FOCAS API 程序。
 
 ## 功能
-演示读取CNC系统坐标、用户宏变量，以及PMC数值。
-演示写入用户宏变量、PMC数值。
+1、演示读取CNC系统坐标、用户宏变量，以及PMC数值。
+
+2、演示写入用户宏变量、PMC数值。
+
+## 用法
+需要用到FANUC FOCAS API函数库，请自行准备。
 
 ## 涉及的API函数
 cnc_allclibhndl3.........Get the library handle(for Ethernet)
