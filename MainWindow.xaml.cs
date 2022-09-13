@@ -24,10 +24,8 @@ namespace FocasSimple2
     {
         ushort h;
         short ret;
-        //string strVal;
         int MacroVal;
         short MacroDec;
-        //double temp;
 
         Focas1.ODBAXIS CncAxis = new Focas1.ODBAXIS();
         Focas1.ODBM CncMacro = new Focas1.ODBM();
@@ -41,7 +39,8 @@ namespace FocasSimple2
 
         private void CmdRead(object sender, RoutedEventArgs e)
         {
-            // 建立连接
+            // 建立连接，IP地址，端口默认8193，连接延时3s
+            // 获得library handle
             ret = Focas1.cnc_allclibhndl3(tbIpAddress.Text, ushort.Parse(tbPort.Text), 3, out h);
             
             if (ret == Focas1.EW_OK)
@@ -61,7 +60,7 @@ namespace FocasSimple2
                 tbVariable500.Text = String.Format("{0:#########.####}", CncMacro.mcr_val * Math.Pow(0.1, CncMacro.dec_val));
 
                 // 读取PMC D200 数值
-                ret = Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
+                Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
                 tbPmcD0200.Text = bytPMC.cdata[0].ToString();
 
                 // 释放 library handle
@@ -69,13 +68,14 @@ namespace FocasSimple2
             }
             else
             {
+                // 检查返回值异常
                 MessageBox.Show("ret = "+ret.ToString());
             }
         }
 
         private void CmdWrite(object sender, RoutedEventArgs e)
         {
-            // 建立连接
+            // 建立连接，IP地址，端口默认8193，连接延时3s
             ret = Focas1.cnc_allclibhndl3(tbIpAddress.Text, ushort.Parse(tbPort.Text), 3, out h);
 
             if (ret == Focas1.EW_OK)
@@ -85,8 +85,6 @@ namespace FocasSimple2
                 MacroVal = (int)Math.Round(double.Parse(tbVariable500.Text) * 10000);
                 MacroDec = 4;
                 Focas1.cnc_wrmacro(h, 500, 10, MacroVal, MacroDec);
-
-                //MessageBox.Show("ret = " + ret.ToString());
 
                 // 写入PMC D200 数值
                 bytPMC.cdata[0] = Convert.ToByte(tbPmcD0200.Text);
