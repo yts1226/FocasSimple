@@ -48,16 +48,16 @@ namespace FocasSimple2
                 // 读取绝对位置坐标
                 Focas1.cnc_absolute2(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
                 // 显示，暂时默认三位小数
-                tbAbsolutX.Text = String.Format("{0:######.000}", (double)CncAxis.data[0] / 1000);
+                tbAbsolutX.Text = String.Format("{0:#####0.000}", (double)CncAxis.data[0] / 1000);
 
                 // 读取机械位置坐标
                 Focas1.cnc_machine(h, -1, 4 + 4 * Focas1.MAX_AXIS, CncAxis);
                 // 显示，暂时默认三位小数
-                tbMachineX.Text = String.Format("{0:######.000}", (double)CncAxis.data[0] / 1000);
+                tbMachineX.Text = String.Format("{0:#####0.000}", (double)CncAxis.data[0] / 1000);
 
                 // 读取用户宏变量 #500 数值，保留4位小数
                 Focas1.cnc_rdmacro(h, 500, 10, CncMacro);
-                tbVariable500.Text = String.Format("{0:#########.####}", CncMacro.mcr_val * Math.Pow(0.1, CncMacro.dec_val));
+                tbVariable500.Text = String.Format("{0:########0.0000}", CncMacro.mcr_val * Math.Pow(0.1, CncMacro.dec_val));
 
                 // 读取PMC D200 数值
                 Focas1.pmc_rdpmcrng(h, 9, 0, 200, 200, 9, bytPMC);
