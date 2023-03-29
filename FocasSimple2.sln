@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocasSimple2", "FocasSimple2.csproj", "{FB38FB08-1B78-4A67-92DA-7040A44D148E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocasSimple", "FocasSimple.csproj", "{FB38FB08-1B78-4A67-92DA-7040A44D148E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
