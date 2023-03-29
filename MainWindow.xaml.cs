@@ -34,7 +34,7 @@ namespace FocasSimple2
         public MainWindow()
         {
             InitializeComponent();
-            tbIpAddress.Text = "192.168.12.149";
+            tbIpAddress.Text = "0.0.0.0";
         }
 
         private void CmdRead(object sender, RoutedEventArgs e)
