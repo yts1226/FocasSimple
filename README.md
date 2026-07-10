@@ -7,7 +7,7 @@
 2、演示写入用户宏变量、PMC数值。
 
 ## 用法
-需要用到FANUC FOCAS API函数库，请自行准备相关dll文件。
+需要用到FANUC FOCAS API函数库，请自行准备相关文件。
 
 ## 涉及的API函数
 cnc_allclibhndl3.........Get the library handle(for Ethernet)

@@ -30,6 +30,7 @@ namespace FocasSimple
         Focas1.ODBAXIS CncAxis = new Focas1.ODBAXIS();
         Focas1.ODBM CncMacro = new Focas1.ODBM();
         Focas1.IODBPMC0 bytPMC = new Focas1.IODBPMC0();
+        Focas1.IODBPMC1 intPMC = new Focas1.IODBPMC1();
 
         public MainWindow()
         {
@@ -93,6 +94,14 @@ namespace FocasSimple
                 bytPMC.datano_s = 200;
                 bytPMC.datano_e = 200;
                 ret = Focas1.pmc_wrpmcrng(h, 9, bytPMC);
+
+                // 写入PMC D200 数值，2字节
+                intPMC.idata[0] = Convert.ToByte(tbPmcD0200.Text);
+                intPMC.type_a = 9;
+                intPMC.type_d = 1;
+                intPMC.datano_s = 200;
+                bytPMC.datano_e = 201;
+                ret = Focas1.pmc_wrpmcrng(h, 10, bytPMC);
 
                 // 释放 library handle
                 Focas1.cnc_freelibhndl(h);
